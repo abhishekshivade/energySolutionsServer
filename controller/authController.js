@@ -1,6 +1,5 @@
 const User = require("../userSchema");
 const jwt = require("jsonwebtoken");
-// const crypto = require('crypto')
 
 exports.login = async (req, res) => {
   const { email, password, company } = req.body;
@@ -11,18 +10,14 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     } else {
-
-        // const hashedPassword = hashPassword(password,user.salt)
-
         const passwordMatch = password === user.password
-
       if (passwordMatch && user.companies.includes(company)) {
-        const token = jwt.sign(
-          { userId: user._id, userName: user.userName },
-          "secret-key"
-        );
+        // const token = jwt.sign(
+        //   { userId: user._id, userName: user.userName },
+        //   "secret-key"
+        // );
 
-        res.json({ token });
+        res.json({userId:user._id, userName:user.userName });
       } else{
         return res.status(401).json({message: 'Invalid credentials'})
       }
@@ -31,12 +26,3 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-
-// function generateSalt() {
-//     return crypto.randomBytes(16).toString("hex");
-//   }
-  
-//   function hashPassword(password, salt) {
-//     return crypto.createHash("sha256").update(password + salt).digest("hex");
-//   }

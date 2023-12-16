@@ -1,6 +1,4 @@
-// const express = require("express");
 const User = require("../userSchema");
-// const crypto = require("crypto");
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -35,18 +33,12 @@ exports.createUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists" });
     } else {
-      // const salt = generateSalt()
-
-      // const hashedPassword = hashPassword(password,salt)
-
       const newUser = new User({
         userName,
         address,
         mobileNumber,
         email,
         password,
-        // password: hashedPassword,
-        // salt,
         companies,
       });
 
@@ -68,14 +60,6 @@ exports.updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     } else {
-      //   if (email) {
-      //     const existingUser = await User.findOne({ email });
-
-      //     if (existingUser) {
-      //       return res.status(400).json({ message: "Email already registered" });
-      //     }
-      //   }
-      //   else {
       user.userName = userName;
       user.address = address;
       user.mobileNumber = mobileNumber;
@@ -83,20 +67,9 @@ exports.updateUser = async (req, res) => {
       user.companies = companies;
       user.password = password
 
-      // if (password) {
-      //   user.salt = generateSalt()
-      //   user.password = hashPassword(password,user.salt)
-      // }
-
       const updatedUser = await user.save();
       res.json(updatedUser);
     }
-    // }
-    // if (!updatedUser) {
-    //   return res.status(404).json({ message: "User not found" });
-    // } else {
-    //   return res.json(updatedUser);
-    // }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -115,14 +88,3 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-// function generateSalt() {
-//   return crypto.randomBytes(16).toString("hex");
-// }
-
-// function hashPassword(password, salt) {
-//   return crypto
-//     .createHash("sha256")
-//     .update(password + salt)
-//     .digest("hex");
-// }
