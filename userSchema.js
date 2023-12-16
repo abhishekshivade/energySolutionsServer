@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
     mobileNumber:  {type: String, require: true},
     email:  {type: String, require: true},
     password:  {type: String, require: true},
+    salt:  {type: String, require: true},
     companies: {type: [String], require: true}
 })
 
