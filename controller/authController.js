@@ -17,7 +17,7 @@ exports.login = async (req, res) => {
         //   "secret-key"
         // );
 
-        res.json({userId:user._id, userName:user.userName });
+        res.json({userId:user._id, userName:user.userName, company:company });
       } else{
         return res.status(401).json({message: 'Invalid credentials'})
       }
