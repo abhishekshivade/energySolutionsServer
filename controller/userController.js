@@ -1,6 +1,6 @@
-const e = require("express");
+// const express = require("express");
 const User = require("../userSchema");
-const crypto = require("crypto");
+// const crypto = require("crypto");
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -35,17 +35,18 @@ exports.createUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists" });
     } else {
-      const salt = generateSalt()
+      // const salt = generateSalt()
 
-      const hashedPassword = hashPassword(password,salt)
+      // const hashedPassword = hashPassword(password,salt)
 
       const newUser = new User({
         userName,
         address,
         mobileNumber,
         email,
-        password: hashedPassword,
-        salt,
+        password,
+        // password: hashedPassword,
+        // salt,
         companies,
       });
 
@@ -80,11 +81,12 @@ exports.updateUser = async (req, res) => {
       user.mobileNumber = mobileNumber;
       user.email = email;
       user.companies = companies;
+      user.password = password
 
-      if (password) {
-        user.salt = generateSalt()
-        user.password = hashPassword(password,user.salt)
-      }
+      // if (password) {
+      //   user.salt = generateSalt()
+      //   user.password = hashPassword(password,user.salt)
+      // }
 
       const updatedUser = await user.save();
       res.json(updatedUser);
@@ -114,13 +116,13 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-function generateSalt() {
-  return crypto.randomBytes(16).toString("hex");
-}
+// function generateSalt() {
+//   return crypto.randomBytes(16).toString("hex");
+// }
 
-function hashPassword(password, salt) {
-  return crypto
-    .createHash("sha256")
-    .update(password + salt)
-    .digest("hex");
-}
+// function hashPassword(password, salt) {
+//   return crypto
+//     .createHash("sha256")
+//     .update(password + salt)
+//     .digest("hex");
+// }
